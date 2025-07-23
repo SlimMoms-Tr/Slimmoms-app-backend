@@ -1,0 +1,25 @@
+{
+  "name": "slimmoms-app-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlimMoms-Tr/Slimmoms-app-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SlimMoms-Tr/Slimmoms-app-backend/issues"
+  },
+  "homepage": "https://github.com/SlimMoms-Tr/Slimmoms-app-backend#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0"
+  }
+}
