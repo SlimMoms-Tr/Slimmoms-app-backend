@@ -1,8 +1,11 @@
-import mongoose from 'mongoose';
 
+
+
+import mongoose from 'mongoose';
 const productSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  calories: { type: Number, required: true },
+  kcalPer100g: { type: Number, required: true },
+  category: { type: String },
+  notRecommended: { type: Boolean }
 });
-
-export const Product = mongoose.model('Product', productSchema);
+export const ProductCollection = mongoose.model('Product', productSchema);
