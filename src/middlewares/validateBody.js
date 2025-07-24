@@ -1,4 +1,5 @@
-import createHttpError from 'http-errors';
+import httpErrors from 'http-errors';
+const createHttpError = httpErrors;
 
 export const validateBody = (schema) => async (req, res, next) => {
   try {
@@ -7,9 +8,8 @@ export const validateBody = (schema) => async (req, res, next) => {
     });
     next();
   } catch (err) {
-    const error = createHttpError(400, 'Bad Request', {
-      errors: err.details,
-    });
+    const error = createHttpError(400, 'Bad Request');
+    error.details = err.details;
     next(error);
   }
 };
