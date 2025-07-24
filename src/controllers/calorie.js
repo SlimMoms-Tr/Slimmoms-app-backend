@@ -1,5 +1,5 @@
-import { calculateCalories, getNotRecommendedFoods } from '../services/public.service.js';
-import { saveUserCalorieInfo } from '../services/calorie.service.js';
+import { calculateCalories, getNotRecommendedFoods } from '../services/publicService.js';
+import { saveUserCalorieInfo } from '../services/calorieService.js';
 
 export const postPrivateCalorieInfo = async (req, res, next) => {
   try {

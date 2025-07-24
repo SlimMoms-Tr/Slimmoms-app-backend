@@ -1,4 +1,4 @@
-import { calculateCalories, getNotRecommendedFoods, searchProducts } from '../services/public.service.js';
+import { calculateCalories, getNotRecommendedFoods, searchProducts } from '../services/publicService.js';
 
 export const calculateCaloriesAndProducts = async (req, res, next) => {
   try {

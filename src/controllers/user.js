@@ -1,4 +1,4 @@
-import { calculateCalories, getNotRecommendedFoods } from '../services/public.service.js';
+import { calculateCalories, getNotRecommendedFoods } from '../services/publicService.js';
 import User from '../models/User.js';
 
 export const calculateAndSaveUserCalories = async (req, res, next) => {
