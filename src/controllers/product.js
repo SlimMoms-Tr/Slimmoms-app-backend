@@ -1,10 +1,10 @@
-import { ProductCollection } from '../db/models/product.js';
+import { productCollection } from '../db/models/product.js';
 
 export const searchProducts = async (req, res, next) => {
   try {
     const { q = '' } = req.query;
 
-    const result = await ProductCollection.find({
+    const result = await productCollection.find({
       title: { $regex: q, $options: 'i' },
     });
 
