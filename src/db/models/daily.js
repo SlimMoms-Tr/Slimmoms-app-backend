@@ -14,6 +14,7 @@ const dailySchema = new mongoose.Schema(
     },
     weight: { type: Number, required: true },
     date: { type: String, required: true },
+    totalCalories: { type: Number, required: true },
   },
   {
     timestamps: true,

@@ -1,5 +1,6 @@
 import { dailyCollection } from '../db/models/daily.js';
 import { productCollection } from '../db/models/product.js';
+import { calculateTotalCalories } from '../utils/calculateTotalCalories.js';
 
 export const getAllDaily = async ({ userId, date }) => {
   const entries = await dailyCollection
@@ -9,11 +10,19 @@ export const getAllDaily = async ({ userId, date }) => {
 };
 
 export const createDailyEntry = async ({ userId, productId, weight, date }) => {
+  const product = await productCollection.findById(productId);
+  if (!product) {
+    throw new Error('Product not found');
+  }
+
+  const totalCalories = calculateTotalCalories(weight, product.kcalPer100g);
+
   const entry = await dailyCollection.create({
     user: userId,
     product: productId,
     weight,
     date,
+    totalCalories,
   });
 
   return entry;
