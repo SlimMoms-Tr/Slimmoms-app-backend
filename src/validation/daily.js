@@ -7,9 +7,23 @@ export const addProductSchema = Joi.object({
   weight: Joi.number().required().min(1).max(10000),
 });
 
-export const getDailySchema = Joi.object({
-  date: Joi.string()
-    .required()
-    .pattern(/^\d{4}-\d{2}-\d{2}$/),
+export const getPublicDailySchema = Joi.object({
+
+  weight: Joi.number().required(),
+  height: Joi.number().required(),
+  age: Joi.number().required(),
+  gender: Joi.string().valid('male', 'female', 'other').required(),
+  targetWeight: Joi.number().required(),
+  bloodType: Joi.number().valid(1, 2, 3, 4).required(),
 });
-  
+
+export const postPrivateDailySchema = Joi.object({
+  weight: Joi.number().required(),
+  height: Joi.number().required(),
+  age: Joi.number().required(),
+  gender: Joi.string().valid('male', 'female', 'other').required(),
+  targetWeight: Joi.number().required(),
+  bloodType: Joi.number().valid(1, 2, 3, 4).required(),
+  date: Joi.date().iso().required(),
+
+});

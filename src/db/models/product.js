@@ -1,11 +1,15 @@
-import mongoose, { model } from 'mongoose';
 
-const productSchema = new mongoose.Schema(
+import { model, Schema } from 'mongoose';
+
+const productSchema = new Schema(
   {
     title: { type: String, required: true },
     kcalPer100g: { type: Number, required: true },
-    category: { type: String, required: true },
-    notRecommended: { type: Boolean, default: false },
+    groupBloodNotAllowed: {
+      type: [Boolean],
+      required: true,
+      default: [null, false, false, false, false],
+    },
   },
   {
     timestamps: true,

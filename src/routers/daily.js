@@ -7,16 +7,32 @@ import {
   getAllProductController,
   addProductController,
   deleteProductController,
+  getPublicCaloriesController,
+  privateCaloriesController
+
 } from '../controllers/daily.js';
-import { getDailySchema, addProductSchema } from '../validation/daily.js';
+import {  addProductSchema,getPublicDailySchema,postPrivateDailySchema } from '../validation/daily.js';
 
 const router = Router();
 
+router.get(
+  '/public-calories',
+  validateBody(getPublicDailySchema),
+  ctrlWrapper(getPublicCaloriesController),
+);
+
 router.use(authenticate);
+
+router.post(
+  '/private-calories',
+  validateBody(postPrivateDailySchema),
+  ctrlWrapper(privateCaloriesController),
+);
+
 
 router.get(
   '/',
-  validateBody(getDailySchema),
+
   ctrlWrapper(getAllProductController),
 );
 

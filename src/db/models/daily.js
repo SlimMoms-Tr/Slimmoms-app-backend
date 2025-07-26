@@ -1,20 +1,22 @@
-import mongoose, { model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-const dailySchema = new mongoose.Schema(
+const dailySchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'users',
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'products',
-      required: true,
-    },
-    weight: { type: Number, required: true },
-    date: { type: String, required: true },
+    date: { type: String, required: true, default: new Date().toISOString().split('T')[0] },
     totalCalories: { type: Number, required: true },
+    notRecommendedFoods: { type: [String], required: true },
+    consumedProducts: [
+  {
+    title: { type: String, required: true },
+    weight: { type: Number, required: true },
+    productId: { type: Schema.Types.ObjectId, ref: 'products', required: true },
+  }
+]
   },
   {
     timestamps: true,
