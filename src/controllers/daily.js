@@ -1,10 +1,22 @@
-import { getAllDaily, createDailyEntry, deleteDailyEntry,publicCalories,privateCalories } from '../services/daily.js';
+import {
+  publicCalories,
+  privateCalories,
+  updateDailyEntry,
+} from '../services/daily.js';
+import { createProduct, getAllProducts } from '../services/product.js';
 import createHttpError from 'http-errors';
 
 export const getPublicCaloriesController = async (req, res, next) => {
   const { weight, height, age, gender, targetWeight, bloodType } = req.body;
 
-  const dailyData = await publicCalories( { weight, height, age, gender, targetWeight, bloodType } );
+  const dailyData = await publicCalories({
+    weight,
+    height,
+    age,
+    gender,
+    targetWeight,
+    bloodType,
+  });
 
   res.json({
     status: 200,
@@ -17,8 +29,17 @@ export const privateCaloriesController = async (req, res, next) => {
   const userId = req.user._id;
   const gender = req.user.gender;
   const { weight, height, age, targetWeight, bloodType, date } = req.body;
-console.log('Received data:',userId);
-  const entry = await privateCalories({ weight, height, age, gender, targetWeight, bloodType, userId, date });
+  console.log('Received data:', userId);
+  const entry = await privateCalories({
+    weight,
+    height,
+    age,
+    gender,
+    targetWeight,
+    bloodType,
+    userId,
+    date,
+  });
 
   res.json({
     status: 201,
@@ -27,61 +48,36 @@ console.log('Received data:',userId);
   });
 };
 
-export const getAllProductController = async (req, res, next) => {
-  const userId = req.user?._id;
-  const { date } = req.query;
-
-  if (!date) {
-    throw createHttpError(400, 'Date is required');
-  }
-
-  const entries = await getAllDaily({ userId, date });
-
-  res.json({
-    status: 200,
-    message: 'Successfully retrieved all products!',
-    data: entries,
-  });
-};
-
 export const addProductController = async (req, res, next) => {
   const userId = req.user._id;
-  const { date, productId, weight } = req.body;
+  const { date, productTitle, weight } = req.body;
 
-  if (!date || !productId || !weight) {
-    throw createHttpError(400, 'Date, productId, and weight are required');
+  if (!date || !productTitle || !weight) {
+    throw createHttpError(400, 'Date, productTitle, and weight are required');
   }
 
-  const entry = await createDailyEntry({
-    userId,
+  const products = await getAllProducts(productTitle);
+
+  if (!products) {
+    throw createHttpError(400, 'Products not found');
+  }
+
+  let productId = products[0]._id.toString();
+
+  let title = products[0].title;
+  let calories = (weight * products[0].calories) / 100;
+  calories = Math.ceil(calories);
+  let product = {
     productId,
     weight,
-    date
-  });
+    title,
+    calories,
+  };
+  const entry = await updateDailyEntry(date, userId, product);
 
-  res.json({
+  res.status(201).json({
     status: 201,
     message: 'Product added successfully!',
-    data: entry
-  });
-};
-
-export const deleteProductController = async (req, res, next) => {
-  const { id } = req.params;
-  const userId = req.user._id;
-
-  if (!id) {
-    throw createHttpError(400, 'Entry ID is required');
-  }
-
-  const entry = await deleteDailyEntry(id, userId);
-
-  if (!entry) {
-    throw createHttpError(404, 'Entry not found');
-  }
-
-  res.json({
-    status: 200,
-    message: 'Product deleted successfully!'
+    data: entry,
   });
 };

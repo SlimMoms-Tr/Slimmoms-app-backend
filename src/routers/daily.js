@@ -4,9 +4,8 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import {
-  getAllProductController,
+
   addProductController,
-  deleteProductController,
   getPublicCaloriesController,
   privateCaloriesController
 
@@ -30,18 +29,14 @@ router.post(
 );
 
 
-router.get(
-  '/',
-
-  ctrlWrapper(getAllProductController),
-);
-
-router.post(
-  '/',
+router.patch(
+  '/add-product',
   validateBody(addProductSchema),
   ctrlWrapper(addProductController),
 );
 
-router.delete('/:id', isValidId, ctrlWrapper(deleteProductController));
+
+
+
 
 export default router;

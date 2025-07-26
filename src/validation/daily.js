@@ -2,8 +2,7 @@ import Joi from 'joi';
 
 export const addProductSchema = Joi.object({
   date: Joi.date().iso().required(),
-
-  productId: Joi.string().required(),
+  productTitle: Joi.string().required(),
   weight: Joi.number().required().min(1).max(10000),
 });
 
