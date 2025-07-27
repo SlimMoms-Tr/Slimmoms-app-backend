@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 
 const dailySchema = new Schema(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -14,7 +14,6 @@ const dailySchema = new Schema(
     },
     date: { type: String, required: true, default: new Date().toISOString().split('T')[0] },
     totalCalories: { type: Number, required: true },
-    notRecommendedFoods: { type: [String], required: true },
     consumedProducts: [
   {
     title: { type: String, required: true },
