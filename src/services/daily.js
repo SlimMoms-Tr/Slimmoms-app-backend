@@ -1,4 +1,4 @@
-import { calorieCollection } from '../db/models/daily.js';
+import { dailyCollection } from '../db/models/daily.js';
 import { productCollection } from '../db/models/product.js';
 import { calculateCalories } from '../utils/calculateCalories.js';
 
@@ -50,8 +50,8 @@ export const privateCalories = async ({
     { $sample: { size: 4 } },
   ]);
 
-  const entry = await calorieCollection.create({
-    userId: userId,
+  const entry = await dailyCollection.create({
+    user: userId,
     weight,
     date,
     totalCalories: dailyCalories,

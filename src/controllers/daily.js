@@ -1,7 +1,7 @@
 import {
   publicCalories,
   privateCalories,
-  updateDailyEntry,
+  updateAddDailyEntry,
 } from '../services/daily.js';
 import { createProduct, getAllProducts } from '../services/product.js';
 import createHttpError from 'http-errors';
@@ -73,7 +73,7 @@ export const addProductController = async (req, res, next) => {
     title,
     calories,
   };
-  const entry = await updateDailyEntry(date, userId, product);
+  const entry = await updateAddDailyEntry(date, userId, product);
 
   res.status(201).json({
     status: 201,
