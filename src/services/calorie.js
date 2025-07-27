@@ -1,6 +1,7 @@
-import { calorieCollection } from '../db/models/daily.js';
+import { calorieCollection } from '../db/models/calorie.js';
 import { productCollection } from '../db/models/product.js';
 import { calculateCalories } from '../utils/calculateCalories.js';
+
 
 export const publicCalories = async ({
   weight,
@@ -28,6 +29,7 @@ export const publicCalories = async ({
   };
   return dailyData;
 };
+
 export const privateCalories = async ({
   weight,
   height,
@@ -59,15 +61,4 @@ export const privateCalories = async ({
     bloodType,
   });
   return entry;
-};
-
-export const updateAddDailyEntry = async (date, userId, product) => {
-  return await dailyCollection.updateOne(
-    { user: userId, date: date },
-    {
-      $push: {
-        consumedProducts: product,
-      },
-    },
-  );
 };
