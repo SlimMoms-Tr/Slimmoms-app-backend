@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { addProductDailyController,deleteProductDailyController} from '../controllers/daily.js';
-import { addProductSchema,deleteProductSchema } from '../validation/daily.js';
+import { addProductDailyController,deleteProductDailyController,getDailyByDateController} from '../controllers/daily.js';
+import { addProductSchema,deleteProductSchema ,getDailyByDateSchema} from '../validation/daily.js';
 
 const router = Router();
 
 router.use(authenticate);
-
+router.get(
+  '/',
+  validateBody(getDailyByDateSchema),
+  ctrlWrapper(getDailyByDateController),
+);
 router.patch(
   '/add-product',
   validateBody(addProductSchema),

@@ -1,6 +1,8 @@
 import { dailyCollection } from '../db/models/daily.js';
 
-
+export const getDailyByDate = async (date, userId) => {
+  return await dailyCollection.findOne({ userId: userId, date });
+};
 
 export const addProductDaily = async (date, userId, product) => {
   return await dailyCollection.updateOne(

@@ -1,5 +1,7 @@
 import Joi from 'joi';
-
+export const getDailyByDateSchema = Joi.object({
+  date: Joi.date().iso().required(),
+});
 export const addProductSchema = Joi.object({
   date: Joi.date().iso().required(),
   productTitle: Joi.string().required(),

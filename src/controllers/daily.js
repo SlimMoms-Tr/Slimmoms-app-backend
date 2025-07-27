@@ -1,14 +1,34 @@
 import {
+  getDailyByDate,
   addProductDaily,
   deleteProductDaily
 } from '../services/daily.js';
 import {  getProductById } from '../services/product.js';
 import createHttpError from 'http-errors';
 
+export const getDailyByDateController = async (req, res, next) => {
+  const userId = req.user._id.toString();
+  const { date } = req.body;
 
+  if (!date) {
+    throw createHttpError(400, 'Date is required');
+  }
+
+  const entry = await getDailyByDate(date, userId);
+
+  if (!entry) {
+    throw createHttpError(404, 'No entry found for this user and date');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Daily entry retrieved successfully!',
+    data: entry,
+  });
+};
 
 export const addProductDailyController = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.user._id.toString();
   const { date, productId, weight } = req.body;
 
   if (!date || !productId || !weight) {
