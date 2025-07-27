@@ -24,3 +24,6 @@ router.post(
   validateBody(postPrivateDailySchema),
   ctrlWrapper(privateCaloriesController),
 );
+
+
+export default router;

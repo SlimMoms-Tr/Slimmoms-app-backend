@@ -5,9 +5,6 @@ export const createProduct = async ({ title, calories, groupBloodNotAllowed }) =
   await newProduct.save();
   return newProduct;
 };
-
-export const getAllProducts = async ( title) => {
-  return await productCollection.find({
-    title: title
-  });
+export const getProductById = async (id) => {
+  return await productCollection.findById(id);
 };

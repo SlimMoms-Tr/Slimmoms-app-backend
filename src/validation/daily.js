@@ -6,4 +6,9 @@ export const addProductSchema = Joi.object({
   weight: Joi.number().required().min(1).max(10000),
 });
 
+export const deleteProductSchema = Joi.object({
+  date: Joi.date().iso().required(),
+  productId: Joi.string().required(),
+});
+
 
