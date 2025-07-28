@@ -1,61 +1,89 @@
-import { getAllDaily, createDailyEntry, deleteDailyEntry } from '../services/daily.js';
+import {
+  getDailyByDate,
+  addProductDaily,
+  deleteProductDaily
+} from '../services/daily.js';
+import {  getProductById } from '../services/product.js';
 import createHttpError from 'http-errors';
 
-export const getAllProductController = async (req, res, next) => {
-  const userId = req.user?._id;
-  const { date } = req.query;
+export const getDailyByDateController = async (req, res, next) => {
+  const userId = req.user._id.toString();
+  const { date } = req.body;
 
   if (!date) {
     throw createHttpError(400, 'Date is required');
   }
 
-  const entries = await getAllDaily({ userId, date });
+  const entry = await getDailyByDate(date, userId);
 
-  res.json({
+  if (!entry) {
+    throw createHttpError(404, 'No entry found for this user and date');
+  }
+
+  res.status(200).json({
     status: 200,
-    message: 'Successfully retrieved all products!',
-    data: entries,
+    message: 'Daily entry retrieved successfully!',
+    data: entry,
   });
 };
 
-export const addProductController = async (req, res, next) => {
-  const userId = req.user._id;
+export const addProductDailyController = async (req, res, next) => {
+  const userId = req.user._id.toString();
   const { date, productId, weight } = req.body;
 
   if (!date || !productId || !weight) {
     throw createHttpError(400, 'Date, productId, and weight are required');
   }
 
-  const entry = await createDailyEntry({
-    userId,
-    productId,
-    weight,
-    date
-  });
+  const product = await getProductById(productId);
 
-  res.json({
+  if (!product) {
+    throw createHttpError(400, 'Product not found');
+  }
+
+  let productId2 = product._id.toString();
+
+  let title = product.title;
+  let calories = (weight * product.calories) / 100;
+  calories = Math.ceil(calories);
+  let productLet = {
+    productId: productId2,
+    weight,
+    title,
+    calories,
+  };
+  const entry = await addProductDaily(date, userId, productLet);
+
+  res.status(201).json({
     status: 201,
     message: 'Product added successfully!',
-    data: entry
+    data: entry,
   });
 };
+export const deleteProductDailyController = async (req, res, next) => {
+  const userId = req.user._id.toString();
+  const { date, productId } = req.body;
 
-export const deleteProductController = async (req, res, next) => {
-  const { id } = req.params;
-  const userId = req.user._id;
-
-  if (!id) {
-    throw createHttpError(400, 'Entry ID is required');
+  if (!date || !productId) {
+    throw createHttpError(400, 'Date and productId are required');
   }
 
-  const entry = await deleteDailyEntry(id, userId);
+  const result = await deleteProductDaily(date, userId, productId);
 
-  if (!entry) {
-    throw createHttpError(404, 'Entry not found');
-  }
 
-  res.json({
+
+  const entry = await deleteProductDaily(date, userId, productId);
+    if (result.matchedCount === 0) {
+      throw createHttpError(404, 'No daily entry found for this user and date');
+    }
+
+    if (result.modifiedCount === 0) {
+      throw createHttpError(404, 'Product not found in consumed products');
+    }
+
+  res.status(200).json({
     status: 200,
-    message: 'Product deleted successfully!'
+    message: 'Product deleted successfully!',
+    data: entry,
   });
 };

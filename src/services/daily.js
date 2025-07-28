@@ -1,38 +1,24 @@
 import { dailyCollection } from '../db/models/daily.js';
-import { productCollection } from '../db/models/product.js';
-import { calculateTotalCalories } from '../utils/calculateTotalCalories.js';
 
-export const getAllDaily = async ({ userId, date }) => {
-  const entries = await dailyCollection
-    .find({ user: userId, date })
-    .populate('product');
-  return entries;
+export const getDailyByDate = async (date, userId) => {
+  return await dailyCollection.findOne({ userId: userId, date });
 };
 
-export const createDailyEntry = async ({ userId, productId, weight, date }) => {
-  const product = await productCollection.findById(productId);
-  if (!product) {
-    throw new Error('Product not found');
-  }
-
-  const totalCalories = calculateTotalCalories(weight, product.kcalPer100g);
-
-  const entry = await dailyCollection.create({
-    user: userId,
-    product: productId,
-    weight,
-    date,
-    totalCalories,
-  });
-
-  return entry;
+export const addProductDaily = async (date, userId, product) => {
+  return await dailyCollection.updateOne(
+    { userId: userId, date },
+    { $push: { consumedProducts: product } },
+    {
+      upsert: true,
+      runValidators: true,
+    }
+  );
 };
 
-export const deleteDailyEntry = async (id, userId) => {
-  const entry = await dailyCollection.findOneAndDelete({
-    _id: id,
-    user: userId,
-  });
-
-  return entry;
+export const deleteProductDaily = async (date, userId, productId) => {
+  return await dailyCollection.updateOne(
+    { userId: userId, date },
+    { $pull: { consumedProducts: { productId: productId } } },
+    { runValidators: true },
+  );
 };
