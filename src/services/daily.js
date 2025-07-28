@@ -18,7 +18,7 @@ export const addProductDaily = async (date, userId, product) => {
 export const deleteProductDaily = async (date, userId, productId) => {
   return await dailyCollection.updateOne(
     { userId: userId, date },
-    { $pull: { consumedProducts: { _id: productId } } },
-    { runValidators: true }
+    { $pull: { consumedProducts: { productId: productId } } },
+    { runValidators: true },
   );
 };
