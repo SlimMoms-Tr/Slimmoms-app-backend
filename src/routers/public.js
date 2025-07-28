@@ -11,3 +11,4 @@ router.post('/calculate', calculateCaloriesAndProducts);
 router.get('/products', searchPublicProducts);
 
 export default router;
+

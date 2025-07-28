@@ -1,4 +1,4 @@
-import DailyRate from '../../models/DailyRate.js';
+import DailyRate from '../../db/models/dailyRate.js';
 import productsData from '../../data/products.js';
 
 export const calculateDailyRate = async (req, res) => {

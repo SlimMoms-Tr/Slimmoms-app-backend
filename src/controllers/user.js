@@ -1,12 +1,20 @@
-import { calculateCalories, getNotRecommendedFoods } from '../services/publicService.js';
-import User from '../models/User.js';
+import {
+  calculateCalories,
+  getNotRecommendedFoods,
+} from '../services/publicService.js';
+import User from '../db/models/userInfo.js';
 
 export const calculateAndSaveUserCalories = async (req, res, next) => {
   try {
     const { height, age, currentWeight, desiredWeight, bloodType } = req.body;
     const { _id: userId } = req.user;
 
-    const calories = calculateCalories({ height, age, currentWeight, desiredWeight });
+    const calories = calculateCalories({
+      height,
+      age,
+      currentWeight,
+      desiredWeight,
+    });
     const notRecommendedFoods = getNotRecommendedFoods(Number(bloodType));
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -15,7 +23,7 @@ export const calculateAndSaveUserCalories = async (req, res, next) => {
         dailyRate: calories,
         notAllowedProducts: notRecommendedFoods,
       },
-      { new: true }
+      { new: true },
     );
 
     res.status(200).json({

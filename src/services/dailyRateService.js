@@ -1,7 +1,10 @@
-import DailyRate from '../models/DailyRate.js';
+import DailyRate from '../db/models/dailyRate.js';
 
-export const saveDailyRate = async ({ owner, dailyCalories, notRecommendedProducts }) => {
-
+export const saveDailyRate = async ({
+  owner,
+  dailyCalories,
+  notRecommendedProducts,
+}) => {
   await DailyRate.findOneAndDelete({ owner });
 
   const newEntry = await DailyRate.create({

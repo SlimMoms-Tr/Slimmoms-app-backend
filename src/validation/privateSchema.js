@@ -8,3 +8,6 @@ export const privateSchema = Joi.object({
   desiredWeight: Joi.number().required(),
   bloodType: Joi.number().valid(1, 2, 3, 4).required(),
 });
+
+
+

@@ -4,6 +4,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const router = express.Router();
 
-router.get('/products/search', ctrlWrapper(searchProducts));
+router.get('/products', ctrlWrapper(searchProducts));
 
 export default router;
+
