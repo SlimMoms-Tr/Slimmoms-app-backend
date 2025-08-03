@@ -3,7 +3,7 @@ import {
   privateCalories,
 } from '../services/calorie.js';
 
-export const getPublicCaloriesController = async (req, res, next) => {
+export const postPublicCaloriesController = async (req, res, next) => {
   const { weight, height, age, gender, targetWeight, bloodType } = req.body;
 
   const dailyData = await publicCalories({
