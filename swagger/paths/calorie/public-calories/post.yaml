@@ -1,0 +1,14 @@
+tags:
+  - Calorie
+summary: Post public calorie info
+operationId: postPublicCalories
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../../components/schemas/calorie.yaml'
+responses:
+  '200': { $ref: '../../../components/responses/200.yaml' }
+  '400': { $ref: '../../../components/responses/400.yaml' }
+  '500': { $ref: '../../../components/responses/500.yaml' }

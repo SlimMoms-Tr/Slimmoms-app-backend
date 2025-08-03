@@ -1,0 +1,9 @@
+parameters:
+  - name: date
+    in: query
+    required: true
+    schema:
+      type: string
+      format: date
+    description: Date for which the daily report is requested (YYYY-MM-DD)
+    example: '2025-07-28'

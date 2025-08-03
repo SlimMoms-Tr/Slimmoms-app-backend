@@ -1,0 +1,18 @@
+tags:
+  - Daily
+summary: Get daily calorie summary
+operationId: getDaily
+parameters:
+  - name: date
+    in: query
+    required: true
+    schema:
+      type: string
+      format: date
+    description: Date for which the daily report is requested (YYYY-MM-DD)
+    example: '2025-07-28'
+responses:
+  '200': { $ref: '../../components/responses/200.yaml' }
+  '400': { $ref: '../../components/responses/400.yaml' }
+  '404': { $ref: '../../components/responses/404.yaml' }
+  '500': { $ref: '../../components/responses/500.yaml' }
