@@ -1,7 +1,7 @@
 type: object
 required:
   - date
-  - productTitle
+  - productId
   - weight
 properties:
   date:
@@ -9,10 +9,10 @@ properties:
     format: date
     description: Date the product was consumed (YYYY-MM-DD)
     example: '2025-07-28'
-  productTitle:
+  productId:
     type: string
-    description: Name of the consumed product
-    example: Apple
+    description: ID of the consumed product
+    example: 64f8b9c42e3ad91fddbe6f41
   weight:
     type: number
     minimum: 1

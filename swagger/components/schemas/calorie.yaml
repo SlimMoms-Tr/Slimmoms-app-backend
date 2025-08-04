@@ -6,6 +6,7 @@ required:
   - gender
   - targetWeight
   - bloodType
+  - date
 properties:
   weight:
     type: number
@@ -33,3 +34,8 @@ properties:
     enum: [1, 2, 3, 4]
     description: Blood type (1 = A, 2 = B, 3 = AB, 4 = O)
     example: 2
+  date:
+    type: string
+    format: date
+    description: Date of the entry
+    example: 2023-01-01

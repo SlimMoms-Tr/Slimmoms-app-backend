@@ -2,12 +2,6 @@ tags:
   - Calorie
 summary: Get public calorie info
 operationId: getPublicCalories
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: '../../../components/schemas/calorie.yaml'
 responses:
   '200': { $ref: '../../../components/responses/200.yaml' }
   '400': { $ref: '../../../components/responses/400.yaml' }

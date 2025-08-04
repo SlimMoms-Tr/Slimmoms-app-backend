@@ -2,6 +2,8 @@ tags:
   - Daily
 summary: Add product to daily calories
 operationId: addProductToDaily
+security:
+  - bearerAuth: []
 requestBody:
   required: true
   content:

@@ -232,6 +232,11 @@
         ],
         "summary": "Post private calorie data",
         "operationId": "postPrivateCalories",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -262,16 +267,6 @@
         ],
         "summary": "Get public calorie info",
         "operationId": "getPublicCalories",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/calorie"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "$ref": "#/components/responses/200"
@@ -292,6 +287,11 @@
         ],
         "summary": "Add product to daily calories",
         "operationId": "addProductToDaily",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -325,6 +325,11 @@
         ],
         "summary": "Delete product from daily calories",
         "operationId": "deleteProductFromDaily",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -358,16 +363,11 @@
         ],
         "summary": "Get daily calorie summary",
         "operationId": "getDaily",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/getDaily"
-              }
-            }
+        "security": [
+          {
+            "bearerAuth": []
           }
-        },
+        ],
         "responses": {
           "200": {
             "$ref": "#/components/responses/200"
@@ -450,7 +450,8 @@
           "age",
           "gender",
           "targetWeight",
-          "bloodType"
+          "bloodType",
+          "date"
         ],
         "properties": {
           "weight": {
@@ -493,6 +494,12 @@
             ],
             "description": "Blood type (1 = A, 2 = B, 3 = AB, 4 = O)",
             "example": 2
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of the entry",
+            "example": "2023-01-01"
           }
         }
       },
@@ -500,7 +507,7 @@
         "type": "object",
         "required": [
           "date",
-          "productTitle",
+          "productId",
           "weight"
         ],
         "properties": {
@@ -510,10 +517,10 @@
             "description": "Date the product was consumed (YYYY-MM-DD)",
             "example": "2025-07-28"
           },
-          "productTitle": {
+          "productId": {
             "type": "string",
-            "description": "Name of the consumed product",
-            "example": "Apple"
+            "description": "ID of the consumed product",
+            "example": "64f8b9c42e3ad91fddbe6f41"
           },
           "weight": {
             "type": "number",
@@ -528,7 +535,7 @@
         "type": "object",
         "required": [
           "date",
-          "eatenProductId"
+          "productId"
         ],
         "properties": {
           "date": {
@@ -537,24 +544,10 @@
             "description": "Date of the product entry to be deleted (YYYY-MM-DD)",
             "example": "2025-07-28"
           },
-          "eatenProductId": {
+          "productId": {
             "type": "string",
-            "description": "Unique ID of the consumed product to delete",
+            "description": "Unique ID of the product to delete",
             "example": "64d2ab48f4b7be001a8c14b2"
-          }
-        }
-      },
-      "getDaily": {
-        "type": "object",
-        "required": [
-          "date"
-        ],
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Date for which the daily report is requested (YYYY-MM-DD)",
-            "example": "2025-07-28"
           }
         }
       }

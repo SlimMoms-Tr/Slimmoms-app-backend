@@ -1,14 +1,14 @@
 type: object
 required:
   - date
-  - eatenProductId
+  - productId
 properties:
   date:
     type: string
     format: date
     description: Date of the product entry to be deleted (YYYY-MM-DD)
     example: '2025-07-28'
-  eatenProductId:
+  productId:
     type: string
-    description: Unique ID of the consumed product to delete
+    description: Unique ID of the product to delete
     example: 64d2ab48f4b7be001a8c14b2
