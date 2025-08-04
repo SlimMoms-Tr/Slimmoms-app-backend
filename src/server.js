@@ -25,7 +25,7 @@ export const startServer = () => {
 
   app.use(
     cors({
-      origin: 'https://slimmoms-app-backend.onrender.com',
+      origin: true,
       credentials: true,
     }),
   );
