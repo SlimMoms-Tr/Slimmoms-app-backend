@@ -23,12 +23,13 @@ export const startServer = () => {
 
   app.use(helmet());
 
-  app.use(
-    cors({
-      origin: true,
-      credentials: true,
-    }),
-  );
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,POST,PUT,PATCH,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  }),
+);
   app.use(cookieParser());
 
   const limiter = rateLimit({
