@@ -17,6 +17,8 @@ tags:
 servers:
   - url: http://localhost:3000
   - url: https://slimmoms-app-backend.onrender.com/
+security:
+  - bearerAuth: []
 paths:
   /auth/register:
     post:
@@ -50,3 +52,4 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT

@@ -17,6 +17,11 @@
       "url": "https://slimmoms-app-backend.onrender.com/"
     }
   ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -232,6 +237,11 @@
         ],
         "summary": "Post private calorie data",
         "operationId": "postPrivateCalories",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -358,16 +368,19 @@
         ],
         "summary": "Get daily calorie summary",
         "operationId": "getDaily",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/getDaily"
-              }
-            }
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Date for which the daily report is requested (YYYY-MM-DD)",
+            "example": "2025-07-28"
           }
-        },
+        ],
         "responses": {
           "200": {
             "$ref": "#/components/responses/200"
@@ -389,7 +402,8 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "schemas": {
@@ -500,7 +514,7 @@
         "type": "object",
         "required": [
           "date",
-          "productTitle",
+          "productId",
           "weight"
         ],
         "properties": {
@@ -510,10 +524,10 @@
             "description": "Date the product was consumed (YYYY-MM-DD)",
             "example": "2025-07-28"
           },
-          "productTitle": {
+          "productId": {
             "type": "string",
-            "description": "Name of the consumed product",
-            "example": "Apple"
+            "description": "ID of the consumed product",
+            "example": "5d51694802b2373622ff5543"
           },
           "weight": {
             "type": "number",
@@ -528,7 +542,7 @@
         "type": "object",
         "required": [
           "date",
-          "eatenProductId"
+          "productId"
         ],
         "properties": {
           "date": {
@@ -537,24 +551,10 @@
             "description": "Date of the product entry to be deleted (YYYY-MM-DD)",
             "example": "2025-07-28"
           },
-          "eatenProductId": {
+          "productId": {
             "type": "string",
             "description": "Unique ID of the consumed product to delete",
             "example": "64d2ab48f4b7be001a8c14b2"
-          }
-        }
-      },
-      "getDaily": {
-        "type": "object",
-        "required": [
-          "date"
-        ],
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "Date for which the daily report is requested (YYYY-MM-DD)",
-            "example": "2025-07-28"
           }
         }
       }

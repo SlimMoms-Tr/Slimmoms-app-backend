@@ -2,6 +2,8 @@ tags:
   - Calorie
 summary: Post private calorie data
 operationId: postPrivateCalories
+security:
+  - bearerAuth: []
 requestBody:
   required: true
   content:
