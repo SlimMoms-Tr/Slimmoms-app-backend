@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: SlimMoms API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: >
+    API for SlimMoms: daily calorie tracking, food diary, and authentication.
+tags:
+  - name: Auth
+    description: Authentication operations
+  - name: Calorie
+    description: Calorie calculation endpoints
+  - name: Daily
+    description: Daily user activity and food tracking
+servers:
+  - url: http://localhost:3000
+  - url: https://slimmoms-app-backend.onrender.com/
+security:
+  - bearerAuth: []
+paths:
+  /auth/register:
+    post:
+      $ref: '../swagger/paths/auth/register/post.yaml'
+  /auth/login:
+    post:
+      $ref: '../swagger/paths/auth/login/post.yaml'
+  /auth/logout:
+    post:
+      $ref: '../swagger/paths/auth/logout/post.yaml'
+  /auth/refresh:
+    post:
+      $ref: '../swagger/paths/auth/refresh/post.yaml'
+  /calorie/private-calories:
+    post:
+      $ref: '../swagger/paths/calorie/private-calories/post.yaml'
+  /calorie/public-calories:
+    post:
+      $ref: '../swagger/paths/calorie/public-calories/post.yaml'
+  /daily/add-product:
+    patch:
+      $ref: '../swagger/paths/daily/add-product/patch.yaml'
+  /daily/delete-product:
+    patch:
+      $ref: '../swagger/paths/daily/delete-product/patch.yaml'
+  /daily:
+    get:
+      $ref: '../swagger/paths/daily/get.yaml'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -8,7 +8,7 @@ import createHttpError from 'http-errors';
 
 export const getDailyByDateController = async (req, res, next) => {
   const userId = req.user._id.toString();
-  const { date } = req.body;
+  const { date } = req.query;
 
   if (!date) {
     throw createHttpError(400, 'Date is required');

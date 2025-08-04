@@ -1,0 +1,16 @@
+tags:
+  - Calorie
+summary: Post private calorie data
+operationId: postPrivateCalories
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../../components/schemas/calorie.yaml'
+responses:
+  '201': { $ref: '../../../components/responses/201.yaml' }
+  '400': { $ref: '../../../components/responses/400.yaml' }
+  '500': { $ref: '../../../components/responses/500.yaml' }

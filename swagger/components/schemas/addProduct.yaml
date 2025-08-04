@@ -1,0 +1,21 @@
+type: object
+required:
+  - date
+  - productId
+  - weight
+properties:
+  date:
+    type: string
+    format: date
+    description: Date the product was consumed (YYYY-MM-DD)
+    example: '2025-07-28'
+  productId:
+    type: string
+    description: ID of the consumed product
+    example: '5d51694802b2373622ff5543'
+  weight:
+    type: number
+    minimum: 1
+    maximum: 10000
+    description: Amount of product consumed in grams
+    example: 150

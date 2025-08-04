@@ -1,5 +1,5 @@
 import Joi from 'joi';
-export const getPublicDailySchema = Joi.object({
+export const postPublicDailySchema = Joi.object({
 
   weight: Joi.number().required(),
   height: Joi.number().required(),

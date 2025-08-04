@@ -1,0 +1,35 @@
+type: object
+required:
+  - weight
+  - height
+  - age
+  - gender
+  - targetWeight
+  - bloodType
+properties:
+  weight:
+    type: number
+    description: Current body weight in kilograms
+    example: 70
+  height:
+    type: number
+    description: Height in centimeters
+    example: 175
+  age:
+    type: number
+    description: Age in years
+    example: 30
+  gender:
+    type: string
+    enum: [male, female, other]
+    description: Gender of the user
+    example: female
+  targetWeight:
+    type: number
+    description: Target body weight in kilograms
+    example: 65
+  bloodType:
+    type: number
+    enum: [1, 2, 3, 4]
+    description: Blood type (1 = A, 2 = B, 3 = AB, 4 = O)
+    example: 2

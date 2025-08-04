@@ -4,18 +4,18 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import {
 
-  getPublicCaloriesController,
+  postPublicCaloriesController,
   privateCaloriesController
 
 } from '../controllers/calorie.js';
-import {  getPublicDailySchema,postPrivateDailySchema } from '../validation/calorie.js';
+import {  postPublicDailySchema,postPrivateDailySchema } from '../validation/calorie.js';
 
 const router = Router();
 
-router.get(
+router.post(
   '/public-calories',
-  validateBody(getPublicDailySchema),
-  ctrlWrapper(getPublicCaloriesController),
+  validateBody(postPublicDailySchema),
+  ctrlWrapper(postPublicCaloriesController),
 );
 
 router.post(
