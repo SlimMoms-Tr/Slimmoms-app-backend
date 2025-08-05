@@ -46,6 +46,15 @@ export const startServer = () => {
     }),
   );
 
+  // Public endpoints için özel CORS ayarları
+  app.use(
+    '/calorie/public-calories',
+    cors({
+      origin: allowedOrigins,
+      credentials: false,
+    }),
+  );
+
   // Product search için özel CORS ayarı
   app.use(
     '/products/search',
