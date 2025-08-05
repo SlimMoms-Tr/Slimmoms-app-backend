@@ -7,7 +7,6 @@ export const swaggerDocs = () => {
   try {
     const swaggerDoc = JSON.parse(fs.readFileSync(SWAGGER_PATH).toString());
 
-
     swaggerDoc.servers = [
       {
         url: process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000',
@@ -16,7 +15,7 @@ export const swaggerDocs = () => {
     ];
 
     return [...swaggerUI.serve, swaggerUI.setup(swaggerDoc)];
-  } catch (err) {
+  } catch {
     return (req, res, next) =>
       next(createHttpError(500, "Can't load swagger docs"));
   }

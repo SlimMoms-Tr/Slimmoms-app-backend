@@ -27,7 +27,8 @@ export const startServer = () => {
     'http://localhost:5173',
     'http://localhost:3000',
     'https://slimmoms-app-frontend.vercel.app',
-    'https://your-frontend-domain.vercel.app',
+    'https://slimmoms-app.vercel.app',
+    'https://slimmoms-frontend.vercel.app',
   ];
 
   app.use(
