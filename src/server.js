@@ -29,6 +29,7 @@ export const startServer = () => {
     'https://slimmoms-app-frontend.vercel.app',
     'https://slimmoms-app.vercel.app',
     'https://slimmoms-frontend.vercel.app',
+    'https://slimmoms-app-frontend-git-oguzhan-oguzhangreys-projects.vercel.app',
   ];
 
   app.use(
