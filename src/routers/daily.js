@@ -2,8 +2,16 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { addProductDailyController,deleteProductDailyController,getDailyByDateController} from '../controllers/daily.js';
-import { addProductSchema,deleteProductSchema ,getDailyByDateSchema} from '../validation/daily.js';
+import {
+  addProductDailyController,
+  deleteProductDailyController,
+  getDailyByDateController,
+} from '../controllers/daily.js';
+import {
+  addProductSchema,
+  deleteProductSchema,
+  getDailyByDateSchema,
+} from '../validation/daily.js';
 
 const router = Router();
 

@@ -1,4 +1,10 @@
-import { registerUser,loginUser,logoutUser ,refreshUsersSession} from '../services/auth.js';
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshUsersSession,
+  getUserInfo,
+} from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
 
 export const registerUserController = async (req, res) => {
@@ -31,6 +37,17 @@ export const loginUserController = async (req, res) => {
     },
   });
 };
+
+export const getUserInfoController = async (req, res) => {
+  const user = await getUserInfo(req.user._id);
+
+  res.json({
+    status: 200,
+    message: 'Successfully retrieved user info!',
+    data: user,
+  });
+};
+
 export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
@@ -41,7 +58,13 @@ export const logoutUserController = async (req, res) => {
 
   res.status(204).send();
 };
-const setupSession = (res, session) => {
+
+export const refreshUserSessionController = async (req, res) => {
+  const session = await refreshUsersSession({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + ONE_DAY),
@@ -50,14 +73,6 @@ const setupSession = (res, session) => {
     httpOnly: true,
     expires: new Date(Date.now() + ONE_DAY),
   });
-};
-export const refreshUserSessionController = async (req, res) => {
-  const session = await refreshUsersSession({
-    sessionId: req.cookies.sessionId,
-    refreshToken: req.cookies.refreshToken,
-  });
-
-  setupSession(res, session);
 
   res.json({
     status: 200,
@@ -67,4 +82,3 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
-

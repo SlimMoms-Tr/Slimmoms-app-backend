@@ -4,9 +4,7 @@ import bcrypt from 'bcrypt';
 
 import { UsersCollection } from '../db/models/user.js';
 import { SessionsCollection } from '../db/models/session.js';
-import { FIFTEEN_MINUTES, ONE_DAY} from '../constants/index.js';
-
-
+import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -44,9 +42,19 @@ export const loginUser = async (payload) => {
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 };
+
+export const getUserInfo = async (userId) => {
+  const user = await UsersCollection.findById(userId).select('-password');
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+  return user;
+};
+
 export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
+
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
   const refreshToken = randomBytes(30).toString('base64');
@@ -85,4 +93,3 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     ...newSession,
   });
 };
-

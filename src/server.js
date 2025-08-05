@@ -23,9 +23,24 @@ export const startServer = () => {
 
   app.use(helmet());
 
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://slimmoms-app-frontend.vercel.app',
+    'https://your-frontend-domain.vercel.app',
+  ];
+
   app.use(
     cors({
-      origin: true,
+      origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       credentials: true,
     }),
   );
@@ -33,7 +48,10 @@ export const startServer = () => {
 
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 10000,
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
   });
   app.use(limiter);
 

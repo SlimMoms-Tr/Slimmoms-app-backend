@@ -1,9 +1,9 @@
 import {
   getDailyByDate,
   addProductDaily,
-  deleteProductDaily
+  deleteProductDaily,
 } from '../services/daily.js';
-import {  getProductById } from '../services/product.js';
+import { getProductById } from '../services/product.js';
 import createHttpError from 'http-errors';
 
 export const getDailyByDateController = async (req, res, next) => {
@@ -17,7 +17,19 @@ export const getDailyByDateController = async (req, res, next) => {
   const entry = await getDailyByDate(date, userId);
 
   if (!entry) {
-    throw createHttpError(404, 'No entry found for this user and date');
+    const emptyEntry = {
+      userId: userId,
+      date: date,
+      consumedProducts: [],
+      totalCalories: 0,
+    };
+
+    res.status(200).json({
+      status: 200,
+      message: 'Daily entry retrieved successfully!',
+      data: emptyEntry,
+    });
+    return;
   }
 
   res.status(200).json({
@@ -41,25 +53,37 @@ export const addProductDailyController = async (req, res, next) => {
     throw createHttpError(400, 'Product not found');
   }
 
-  let productId2 = product._id.toString();
-
   let title = product.title;
   let calories = (weight * product.calories) / 100;
   calories = Math.ceil(calories);
   let productLet = {
-    productId: productId2,
+    productId: product._id,
     weight,
     title,
     calories,
   };
-  const entry = await addProductDaily(date, userId, productLet);
+
+  // Önce mevcut entry'yi kontrol et
+  const existingEntry = await getDailyByDate(date, userId);
+  const existingProduct = existingEntry?.consumedProducts?.find(
+    (p) => p.productId.toString() === product._id.toString(),
+  );
+
+  await addProductDaily(date, userId, productLet);
+
+  const updatedEntry = await getDailyByDate(date, userId);
+
+  const message = existingProduct
+    ? 'Product quantity updated successfully!'
+    : 'Product added successfully!';
 
   res.status(201).json({
     status: 201,
-    message: 'Product added successfully!',
-    data: entry,
+    message: message,
+    data: updatedEntry,
   });
 };
+
 export const deleteProductDailyController = async (req, res, next) => {
   const userId = req.user._id.toString();
   const { date, productId } = req.body;
@@ -70,20 +94,19 @@ export const deleteProductDailyController = async (req, res, next) => {
 
   const result = await deleteProductDaily(date, userId, productId);
 
+  if (result.matchedCount === 0) {
+    throw createHttpError(404, 'No daily entry found for this user and date');
+  }
 
+  if (result.modifiedCount === 0) {
+    throw createHttpError(404, 'Product not found in consumed products');
+  }
 
-  const entry = await deleteProductDaily(date, userId, productId);
-    if (result.matchedCount === 0) {
-      throw createHttpError(404, 'No daily entry found for this user and date');
-    }
-
-    if (result.modifiedCount === 0) {
-      throw createHttpError(404, 'Product not found in consumed products');
-    }
+  const updatedEntry = await getDailyByDate(date, userId);
 
   res.status(200).json({
     status: 200,
     message: 'Product deleted successfully!',
-    data: entry,
+    data: updatedEntry,
   });
 };

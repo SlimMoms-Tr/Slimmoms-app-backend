@@ -2,12 +2,17 @@ import { calorieCollection } from '../db/models/calorie.js';
 import { productCollection } from '../db/models/product.js';
 import { calculateCalories } from '../utils/calculateCalories.js';
 
+const getNotRecommendedFoods = async (bloodType) => {
+  return await productCollection.aggregate([
+    { $match: { [`groupBloodNotAllowed.${bloodType}`]: true } },
+    { $sample: { size: 4 } },
+  ]);
+};
 
 export const publicCalories = async ({
   weight,
   height,
   age,
-  gender = 'female',
   targetWeight,
   bloodType,
 }) => {
@@ -15,15 +20,12 @@ export const publicCalories = async ({
     age,
     height,
     weight,
-    gender,
+    gender: 'female',
     targetWeight,
   });
-  const notRecommendedFoods = await productCollection.aggregate([
-    { $match: { [`groupBloodNotAllowed.${bloodType}`]: true } },
-    { $sample: { size: 4 } },
-  ]);
+  const notRecommendedFoods = await getNotRecommendedFoods(bloodType);
   const dailyData = {
-    dailyCalories,
+    totalCalories: dailyCalories,
     bloodType,
     notRecommendedFoods: notRecommendedFoods.map((food) => food.title),
   };
@@ -34,7 +36,6 @@ export const privateCalories = async ({
   weight,
   height,
   age,
-  gender,
   targetWeight,
   userId,
   date,
@@ -44,13 +45,10 @@ export const privateCalories = async ({
     age,
     height,
     weight,
-    gender,
+    gender: 'female', 
     targetWeight,
   });
-  const notRecommendedFoods = await productCollection.aggregate([
-    { $match: { [`groupBloodNotAllowed.${bloodType}`]: true } },
-    { $sample: { size: 4 } },
-  ]);
+  const notRecommendedFoods = await getNotRecommendedFoods(bloodType);
 
   const entry = await calorieCollection.create({
     userId: userId,

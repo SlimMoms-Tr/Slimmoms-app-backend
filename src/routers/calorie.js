@@ -3,12 +3,14 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import {
-
   postPublicCaloriesController,
-  privateCaloriesController
-
+  privateCaloriesController,
+  getUserCaloriesController,
 } from '../controllers/calorie.js';
-import {  postPublicDailySchema,postPrivateDailySchema } from '../validation/calorie.js';
+import {
+  postPublicDailySchema,
+  postPrivateDailySchema,
+} from '../validation/calorie.js';
 
 const router = Router();
 
@@ -25,5 +27,10 @@ router.post(
   ctrlWrapper(privateCaloriesController),
 );
 
+router.get(
+  '/user-calories',
+  authenticate,
+  ctrlWrapper(getUserCaloriesController),
+);
 
 export default router;

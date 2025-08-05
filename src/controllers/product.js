@@ -1,4 +1,8 @@
-import { createProduct,getAllProducts } from "../services/product";
+import {
+  createProduct,
+  getAllProducts,
+  searchProducts,
+} from '../services/product.js';
 import createHttpError from 'http-errors';
 
 export const getAllProductController = async (req, res, next) => {
@@ -18,13 +22,17 @@ export const getAllProductController = async (req, res, next) => {
 };
 
 export const postProductController = async (req, res, next) => {
-  const { title, kcalPer100g, groupBloodNotAllowed } = req.body;
+  const { title, calories, groupBloodNotAllowed } = req.body;
 
-  if (!title || !kcalPer100g || !groupBloodNotAllowed) {
+  if (!title || !calories || !groupBloodNotAllowed) {
     throw createHttpError(400, 'All fields are required');
   }
 
-  const newProduct = await createProduct({ title, kcalPer100g, groupBloodNotAllowed });
+  const newProduct = await createProduct({
+    title,
+    calories,
+    groupBloodNotAllowed,
+  });
 
   res.status(201).json({
     status: 201,
@@ -33,3 +41,18 @@ export const postProductController = async (req, res, next) => {
   });
 };
 
+export const searchProductsController = async (req, res, next) => {
+  const { search } = req.query;
+
+  if (!search) {
+    throw createHttpError(400, 'Search query is required');
+  }
+
+  const products = await searchProducts(search);
+
+  res.json({
+    status: 200,
+    message: 'Products found successfully!',
+    data: products,
+  });
+};
