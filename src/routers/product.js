@@ -15,11 +15,7 @@ import {
 const router = Router();
 
 router.get('/', authenticate, ctrlWrapper(getAllProductController));
-router.get(
-  '/search',
-  validateBody(searchProductsSchema),
-  ctrlWrapper(searchProductsController),
-);
+router.get('/search', ctrlWrapper(searchProductsController));
 router.post(
   '/',
   validateBody(postProductSchema),
