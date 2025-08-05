@@ -44,11 +44,15 @@ export const postProductController = async (req, res, next) => {
 export const searchProductsController = async (req, res, next) => {
   const { search } = req.query;
 
+  console.log('Search query received:', search);
+
   if (!search) {
     throw createHttpError(400, 'Search query is required');
   }
 
   const products = await searchProducts(search);
+
+  console.log('Products found:', products.length);
 
   res.json({
     status: 200,

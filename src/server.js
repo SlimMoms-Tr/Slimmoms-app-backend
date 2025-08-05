@@ -45,6 +45,16 @@ export const startServer = () => {
       credentials: true,
     }),
   );
+
+  // Product search için özel CORS ayarı
+  app.use(
+    '/products/search',
+    cors({
+      origin: allowedOrigins,
+      credentials: false,
+    }),
+  );
+
   app.use(cookieParser());
 
   const limiter = rateLimit({
